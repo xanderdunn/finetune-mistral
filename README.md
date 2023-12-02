@@ -8,10 +8,10 @@ Finetuning Mistral on Multi-Node GPUs.
 - `python3 -m pip install --upgrade pip`
 - `pip3 install transformers accelerate deepspeed trl pyparsing`
 - Set the ulimit for locked memory to unlimited
-    - sudo vim /etc/ssh/sshd_config
-    - UsePAM yes
-    - sudo service sshd restart
-    - sudo vim /etc/security/limits.conf and add:
+    - `sudo vim /etc/ssh/sshd_config`
+    - Make sure this is set to yes: `UsePAM yes`
+    - `sudo service sshd restart`
+    - `sudo vim /etc/security/limits.conf` and add:
     ```
     * soft memlock unlimited
     * hard memlock unlimited
@@ -34,3 +34,7 @@ Finetuning Mistral on Multi-Node GPUs.
     - On machine 0: Run `MASTER_ADDR=10.141.0.12 MASTER_PORT=1234 python3 test.py`
     - On machine 1: Modify test.py `rank=1` and then run `MASTER_ADDR=10.141.0.12 MASTER_PORT=1234 python3 test.py`
     - If it fails, setting `export NCCL_DEBUG=info` can provide some additional information.
+    - On success, you should see:
+    ```
+    [tensor([16.], device='cuda:0'), tensor([16.], device='cuda:1'), tensor([16.], device='cuda:2'), tensor([16.], device='cuda:3'), tensor([16.], device='cuda:4'), tensor([16.], device='cuda:5'), tensor([16.], device='cuda:6'), tensor([16.], device='cuda:7')]
+    ```

@@ -12,6 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+import subprocess
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -69,6 +71,11 @@ class ScriptArguments:
     )
     hub_model_id: Optional[str] = field(default=None, metadata={"help": "The name of the model on HF Hub"})
 
+
+# Assert that the output is 'unlimited'
+result = subprocess.run(['ulimit', '-l'], capture_output=True, text=True, shell=True)
+output = result.stdout.strip()
+assert output == 'unlimited', f"ulimit -l is not unlimited, but {output}"
 
 parser = HfArgumentParser(ScriptArguments)
 script_args = parser.parse_args_into_dataclasses()[0]

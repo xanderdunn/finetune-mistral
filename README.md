@@ -31,5 +31,6 @@ Finetuning Mistral on Multi-Node GPUs.
      8388608    5000             195.77             195.77 		   0.002917
     ```
 - Test torch distributed:
-    - On machine 0: Run `python3 test.py`
-    - On machine 1: Modify test.py `rank=1` and then run `python3 test.py`
+    - On machine 0: Run `MASTER_ADDR=10.141.0.12 MASTER_PORT=1234 python3 test.py`
+    - On machine 1: Modify test.py `rank=1` and then run `MASTER_ADDR=10.141.0.12 MASTER_PORT=1234 python3 test.py`
+    - If it fails, setting `export NCCL_DEBUG=info` can provide some additional information.
